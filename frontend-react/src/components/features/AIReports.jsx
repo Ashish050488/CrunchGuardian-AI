@@ -1,9 +1,9 @@
-// src/components/features/WhaleTracker.jsx
+// src/components/features/AIReports.jsx
 import React from 'react';
 import { useWalletReport } from '../../hooks/useWalletReport';
 import AddressInputForm from '../../ui/AddressInputForm';
 
-const WhaleTracker = () => {
+const AIReports = () => {
   const { reportData, loading, error, analyzeWallet } = useWalletReport();
 
   const getRiskLevelColor = (riskLevel) => {
@@ -16,59 +16,51 @@ const WhaleTracker = () => {
   };
   
   const quickActions = [
-    { name: 'Whale #1', address: '0x742d35Cc6634C0532925a3b844Bc454e4438f44e' },
+    { name: 'Test Wallet 1', address: '0x742d35Cc6634C0532925a3b844Bc454e4438f44e' },
     { name: 'Vitalik.eth', address: '0xd8dA6BF26964aF9D7eEd9e03E53415D37aA96045' }
   ];
 
   return (
     <div className="space-y-6">
       <div className="minimal-card">
-        <h1 className="text-3xl font-bold text-white">🐳 Whale Tracker</h1>
-        <p className="text-gray-400">Track and analyze whale wallets with AI-powered insights</p>
+        <h1 className="text-3xl font-bold text-white">🤖 AI-Powered Reports</h1>
+        <p className="text-gray-400">Comprehensive wallet analysis powered by artificial intelligence</p>
       </div>
 
       <AddressInputForm
         onAnalyze={analyzeWallet}
         loading={loading}
-        title="Whale Wallet Address"
+        title="Wallet Address for AI Analysis"
         placeholder="Enter wallet address (0x...)"
-        buttonText="Track Whale"
+        buttonText="Generate AI Report"
         quickActions={quickActions}
       />
-      
+
       {error && <div className="minimal-alert minimal-alert-danger"><p>{error}</p></div>}
       
       {loading && (
         <div className="text-center py-12">
           <div className="minimal-loading mx-auto mb-4"></div>
-          <p className="text-gray-400">🐳 Analyzing whale behavior...</p>
+          <p className="text-gray-400">AI is analyzing the wallet...</p>
         </div>
       )}
 
       {reportData && (
         <div className="space-y-6">
           <div className="minimal-card">
-            <h2 className="text-xl font-bold text-white mb-4">Whale Risk Assessment</h2>
+            <h2 className="text-xl font-bold text-white mb-4">AI Risk Assessment</h2>
             <div className={`text-3xl font-bold ${getRiskLevelColor(reportData.overallRiskLevel)}`}>
-                {reportData.overallRiskLevel || 'Unknown'}
+              {reportData.overallRiskLevel || 'Unknown'}
             </div>
           </div>
           
-          {reportData.formattedMetrics && (
+          {reportData.report && (
             <div className="minimal-card">
-              <h2 className="text-xl font-bold text-white mb-4">📊 Whale Metrics</h2>
-              <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                {Object.entries(reportData.formattedMetrics).slice(0, 8).map(([key, value]) => (
-                  <div key={key} className="text-center p-3 bg-gray-800 rounded-lg">
-                    <div className="text-lg font-bold text-blue-400">
-                      {value}
-                    </div>
-                    <div className="text-xs text-gray-400 capitalize">
-                      {key.replace(/([A-Z])/g, ' $1').trim()}
-                    </div>
-                  </div>
-                ))}
-              </div>
+              <h2 className="text-xl font-bold text-white mb-4">🤖 AI Analysis Report</h2>
+              <div
+                className="prose prose-invert max-w-none text-gray-300 leading-relaxed whitespace-pre-wrap"
+                dangerouslySetInnerHTML={{ __html: reportData.report.replace(/\n/g, '<br/>') }}
+              />
             </div>
           )}
         </div>
@@ -77,4 +69,4 @@ const WhaleTracker = () => {
   );
 };
 
-export default WhaleTracker;
+export default AIReports;
