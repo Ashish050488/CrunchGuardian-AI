@@ -11,7 +11,7 @@ load_dotenv()
 app = FastAPI()
 
 origins = [
-    "http://localhost",
+   "https://my-wallet-dhqrntg91-ashish050488s-projects.vercel.app",
     "http://localhost:3000",
     "http://localhost:5173", # Default for Vite/React
 ]
